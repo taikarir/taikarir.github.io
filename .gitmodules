@@ -1,3 +1,6 @@
 [submodule "chess"]
 	path = chess
 	url = https://github.com/taikarir/chess.git
+[submodule "wordle_6"]
+	path = wordle_6
+	url = https://github.com/taikarir/wordle_6.git
