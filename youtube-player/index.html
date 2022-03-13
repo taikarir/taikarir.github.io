@@ -1,0 +1,34 @@
+<html>
+  <head>
+      <style>
+          body {
+              background-color: black;
+              color: white;
+          }
+      </style>
+  </head>
+  <body>
+  <input type="text" id="url">
+  <button onclick="go();">Go</button><br>
+  <div id="t"></div><br>
+  <iframe width="1280" height="720" src="" id="ifram"></iframe>
+  </body>
+  <script>
+    var url = document.getElementById("url");
+    var t = document.getElementById("t");
+    var ifram = document.getElementById("ifram");
+    var x;
+    function go() {
+        for (var i=0;i<url.value.length;i++) {
+            if (url.value[i]=="=") {
+                x=url.value.slice(i+1,url.value.length);
+                break;
+            }
+        }
+        x = x.split("&");
+        x = x[0];
+        ifram.src = "https://www.youtube.com/embed/"+x;
+        t.innerHTML = "https://www.youtube.com/embed/"+x;
+    }
+  </script>
+</html>
