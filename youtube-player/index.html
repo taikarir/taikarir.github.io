@@ -14,7 +14,10 @@
   <iframe width="1280" height="720" src="" id="ifram"></iframe>
   </body>
   <script>
+    var current_url = window.location.href;
+    let params = (new URL(current_url)).searchParams;
     var url = document.getElementById("url");
+    url.value = params.get("href");
     var t = document.getElementById("t");
     var ifram = document.getElementById("ifram");
     var x;
@@ -25,7 +28,8 @@
                 break;
             }
         }
-        x = x.split("&");
+        x = url.value.split("=");
+        x = x[1].split("&");
         x = x[0];
         ifram.src = "https://www.youtube.com/embed/"+x;
         t.innerHTML = "https://www.youtube.com/embed/"+x;
