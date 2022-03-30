@@ -9,7 +9,7 @@
   </head>
   <body>
   <input type="text" id="url">
-  <button onclick="go();">Go</button><br>
+  <button onclick="go();" id="b">Go</button><br>
   <div id="t"></div><br>
   <iframe width="1280" height="720" src="" id="ifram"></iframe>
   </body>
@@ -18,16 +18,14 @@
     let params = (new URL(current_url)).searchParams;
     var url = document.getElementById("url");
     url.value = params.get("href");
+    var b = document.getElementById("b");
     var t = document.getElementById("t");
     var ifram = document.getElementById("ifram");
     var x;
+    window.onload = function() {
+       b.click(); 
+    }
     function go() {
-        for (var i=0;i<url.value.length;i++) {
-            if (url.value[i]=="=") {
-                x=url.value.slice(i+1,url.value.length);
-                break;
-            }
-        }
         x = url.value.split("=");
         x = x[1].split("&");
         x = x[0];
