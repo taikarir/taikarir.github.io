@@ -4,3 +4,6 @@
 [submodule "wordle_6"]
 	path = wordle_6
 	url = https://github.com/taikarir/wordle_6.git
+[submodule "n-ellipse"]
+	path = n-ellipse
+	url = https://github.com/taikarir/n-ellipse.git
