@@ -7,6 +7,3 @@
 [submodule "n-ellipse"]
 	path = n-ellipse
 	url = https://github.com/taikarir/n-ellipse.git
-[submodule "fourier"]
-	path = fourier
-	url = https://github.com/taikarir/fourier.git
