@@ -12,7 +12,7 @@
   <input type="text" id="url">
   <button onclick="go();" id="b">Go</button><br>
   <div id="t"></div><br>
-  <iframe width="1280" height="720" src="" id="ifram"></iframe>
+  <iframe width="1280" height="720" src="" id="ifram" frameborder="0" allowfullscreen></iframe>
   </body>
   <script>
     var current_url = window.location.href;
@@ -30,8 +30,8 @@
         x = url.value.split("=");
         x = x[1].split("&");
         x = x[0];
-        ifram.src = "https://www.youtube.com/embed/"+x+"?&vq=large";
-        t.innerHTML = "https://www.youtube.com/embed/"+x+"?&vq=large";
+        ifram.src = "https://www.youtube.com/embed/"+x+"?vq=large";
+        t.innerHTML = "https://www.youtube.com/embed/"+x+"?vq=large";
     }
   </script>
 </html>
