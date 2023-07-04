@@ -30,8 +30,9 @@
         x = url.value.split("=");
         x = x[1].split("&");
         x = x[0];
-        ifram.src = "https://www.youtube.com/embed/"+x+"?vq=large";
-        t.innerHTML = "https://www.youtube.com/embed/"+x+"?vq=large";
+        source = "https://www.youtube.com/embed/"+x+"?autoplay=0";
+        ifram.src = source;
+        t.innerHTML = source;
     }
   </script>
 </html>
