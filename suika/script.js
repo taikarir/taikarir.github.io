@@ -2,19 +2,53 @@ const yunjin = new LoadedImage("./assets/yunjin.png");
 const hanni = new LoadedImage("./assets/hanni.png");
 const jungkook = new LoadedImage("./assets/jungkook.png");
 const kimjongun = new LoadedImage("./assets/kimjongun.png");
+const iu = new LoadedImage("./assets/iu.png");
+const karina = new LoadedImage("./assets/karina.png");
+const wonyoung = new LoadedImage("./assets/wonyoung.png");
+const choguesung = new LoadedImage("./assets/choguesung.png");
+const tzuyu = new LoadedImage("./assets/tzuyu.png");
+const felix = new LoadedImage("./assets/felix.png");
+const jisoo = new LoadedImage("./assets/jisoo.png");
+const eunwoo = new LoadedImage("./assets/eunwoo.png");
 
-const baseSize = 10;
-const gameWidth = 400;
+const baseSize = 15;
+const scaling = 1.3;
+const gameWidth = 600;
 const gameHeight = 600;
 const wallWidth = 10;
 const floorWidth = 50;
 
+const boxFriction = 0;
+const ballFriction = 0.05;
+const floorRestitution = 0;
+const wallRestitution = 0.20;
+
 var types = {
-                1: yunjin,
-                2: hanni,
-                3: jungkook,
-                4: kimjongun
-            }
+    0: karina,
+    1: wonyoung,
+    2: tzuyu,
+    3: eunwoo,
+    4: iu,
+    5: felix,
+    6: hanni,
+    7: jisoo,
+    8: jungkook,
+    9: yunjin,
+    10: kimjongun
+}
+
+var scoring = {
+    0: 1,
+    1: 3,
+    2: 7,
+    3: 9,
+    4: 13,
+    5: 21,
+    6: 27,
+
+
+
+}
 
 // module aliases
 var Engine = Matter.Engine,
@@ -43,9 +77,9 @@ var render = Render.create({
 // create two boxes and a ground
 // var boxA = Bodies.rectangle(400, 200, 80, 80);
 // var boxB = Bodies.rectangle(450, 50, 80, 80);
-var lwall = Bodies.rectangle(50-wallWidth/2, gameHeight/2, wallWidth, gameHeight, {isStatic: true});
-var rwall = Bodies.rectangle(gameWidth+50+wallWidth/2, gameHeight/2, wallWidth, gameHeight, {isStatic: true});
-var ground = Bodies.rectangle((gameWidth+100)/2, gameHeight+floorWidth/2, gameWidth+2*wallWidth, floorWidth, {isStatic: true});
+var lwall = Bodies.rectangle(50-wallWidth/2, gameHeight/2, wallWidth, gameHeight, {isStatic: true, friction: boxFriction, restitution: wallRestitution});
+var rwall = Bodies.rectangle(gameWidth+50+wallWidth/2, gameHeight/2, wallWidth, gameHeight, {isStatic: true, friction: boxFriction, restitution: wallRestitution});
+var ground = Bodies.rectangle((gameWidth+100)/2, gameHeight+floorWidth/2, gameWidth+2*wallWidth, floorWidth, {isStatic: true, friction: boxFriction, restitution: floorRestitution});
 
 // add all of the bodies to the world
 Composite.add(engine.world, [lwall, rwall, ground]);
@@ -70,11 +104,13 @@ document.body.addEventListener('click', (event) => {
     var x = Math.random();
     var circle;
     if (x<1) {
-        var type = Math.round(x*1+1);
-        type = 1;
-        const size = Math.round(baseSize * Math.pow(Math.sqrt(2), type-1));
+        var type = Math.round(x*4);
+        // type = 0;
+        const size = Math.round(baseSize * Math.pow(scaling, type));
         circle = Bodies.circle(event.pageX, 0, size,
             {
+                friction: ballFriction,
+                restitution: floorRestitution,
                 render: {
                         sprite: {
                             texture: types[type].img.src,
@@ -101,6 +137,21 @@ document.body.addEventListener('click', (event) => {
     Composite.add(engine.world, circle);
 });
 
+let verticalLine = Bodies.rectangle(0, 0, 2, window.innerHeight, { isStatic: true, render: { visible: false } });
+
+// Add the line to the world
+Composite.add(engine.world, verticalLine);
+
+// Function to update the vertical line position
+function updateVerticalLine(x) {
+    // Update the position of the line based on the cursor's x-coordinate
+    verticalLine.position.x = x;
+}
+document.body.addEventListener('mousemove', (event) => {
+    // Update the position of the vertical line based on the cursor's x-coordinate
+    updateVerticalLine(event.pageX);
+});
+
 Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((pair) => {
         const bodyA = pair.bodyA;
@@ -115,7 +166,7 @@ Events.on(engine, 'collisionStart', (event) => {
                 const newX = (bodyA.position.x+bodyB.position.x)/2;
                 var newY = (bodyA.position.y+bodyB.position.y)/2;
                 const oldR = bodyA.circleRadius;
-                const newR = bodyA.circleRadius * Math.sqrt(2); // Adjust the factor for the desired size
+                const newR = bodyA.circleRadius * scaling; // Adjust the factor for the desired size
                 Composite.remove(engine.world, [bodyA, bodyB]);
                 console.log(newR);
 
@@ -125,11 +176,13 @@ Events.on(engine, 'collisionStart', (event) => {
 
                 // Create a new circle with a larger radius
                 const size = newR / baseSize;
-                const type = Math.round(Math.log(size)/Math.log(Math.sqrt(2)));
-                // console.log(type);
+                const type = Math.round(Math.log(size)/Math.log(scaling));
+                console.log(type);
 
                 const newCircle = Bodies.circle(newX, newY, newR,
                     {
+                        friction: ballFriction,
+                        restitution: floorRestitution,
                         render: {
                             sprite: {
                                 texture: types[type].img.src,
@@ -142,13 +195,6 @@ Events.on(engine, 'collisionStart', (event) => {
 
                 // Add the new circle to the world
                 Composite.add(engine.world, newCircle);
-                // var s = newCircle.circleRadius;
-                // while (s < newR) {
-                //     newCircle.circleRadius += 1;
-                //     console.log(newR);
-                //     // console.log(newCircle.circleRadius);
-                //     s += 1;
-                // }
             }
         }
     });
