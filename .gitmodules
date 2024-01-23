@@ -10,3 +10,6 @@
 [submodule "fourier"]
 	path = fourier
 	url = https://github.com/taikarir/fourier.git
+[submodule "suika"]
+	path = suika
+	url = https://github.com/taikarir/suika
