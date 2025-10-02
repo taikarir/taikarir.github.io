@@ -13,3 +13,6 @@
 [submodule "suika"]
 	path = suika
 	url = https://github.com/taikarir/suika
+[submodule "euclid"]
+	path = euclid
+	url = ../euclid
